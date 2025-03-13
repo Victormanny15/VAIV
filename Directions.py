@@ -60,5 +60,16 @@ def login_user():
     except Exception as error:
         print("Error en el route '/loginUser':", error)
         return jsonify({"error": "Error interno"}), 500
+    
+@app.route('/updateLed/<led_id>', methods=['POST'])
+@cross_origin(allow_headers=['content-type'])
+def update_led(led_id):
+    try:
+        objResult = Callmethod.fnSetLedStateById(led_id)
+        return objResult
+    except Exception as error:
+        print("Error en el route '/updateLed':", error)
+        return jsonify(repuesta.err500) 
 
+# fdsfsfsd
 # app.run(host="0.0.0.0", port=5000, debug=True, threaded=True)

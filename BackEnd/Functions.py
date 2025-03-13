@@ -8,6 +8,7 @@ if keys.dbconn==None:
     mongoConection =MongoClient(keys.strConnection)
     keys.dbconn=mongoConection[keys.strDBConnection]
     dbUsuarios = keys.dbconn['Usuarios']
+    dbLeds = keys.dbconn['Leds']
     
 def fnGetUsers():
     try:
@@ -83,4 +84,30 @@ def fnLoginUser(data):
 
     except Exception as e:
         print("Error en la función fnLoginUser", e)
+        return jsonify(respuestas.err500)
+    
+def fnSetLedStateById(led_id):
+    try:
+        data = request.get_json()  # Obtener datos JSON de la solicitud
+
+        new_status = data.get("status")  # Nuevo estado (True/False)
+
+        if new_status is None:
+            return jsonify({"Respuesta": False, "Mensaje": "El campo 'status' es obligatorio"}), 400
+
+        # Convertir el ID a ObjectId y actualizar el estado en la base de datos
+        result = dbLeds.update_one(
+            {"_id": ObjectId(led_id)},
+            {"$set": {"status": new_status}}
+        )
+
+        if result.matched_count == 0:
+            return jsonify({"Respuesta": False, "Mensaje": "LED no encontrado"}), 404
+
+        response = respuestas.succ200.copy()
+        response["Mensaje"] = f"Estado del LED {led_id} actualizado a {new_status}"
+        return jsonify(response)
+
+    except Exception as e:
+        print("Error en la función fnSetLedStateById", e)
         return jsonify(respuestas.err500)
