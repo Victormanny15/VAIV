@@ -24,7 +24,7 @@ def getUsers():
         objResult=Callmethod.fnGetUsers()
         return objResult
     except Exception as error:
-        print("estoy en el route",error)
+        print("Error en getUsers",error)
         return jsonify(repuesta.err500)
 
 @app.route('/getUser/<id>', methods=['GET'])
@@ -71,5 +71,9 @@ def update_led(led_id):
         print("Error en el route '/updateLed':", error)
         return jsonify(repuesta.err500) 
 
+<<<<<<< HEAD
 # fdsfsfsd
 # app.run(host="0.0.0.0", port=5000, debug=True, threaded=True)
+=======
+# app.run(host="0.0.0.0", port=5000, debug=True, threaded=True)
+>>>>>>> 11e34d2f6af0c4bf62679d90728f9c1dfb0196c8
