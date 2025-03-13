@@ -98,6 +98,15 @@ def get_led_state(led_id):
     except Exception as error:
         print("Error en el route '/getLedState':", error)
         return jsonify(repuesta.err500)
+@app.route('/getAllLedsState', methods=['GET'])
+@cross_origin(allow_headers=['content-type'])
+def get_all_leds_state():
+    try:
+        objResult = Callmethod.fnGetAllLedsState()
+        return objResult
+    except Exception as error:
+        print("Error en el route '/getAllLedsState':", error)
+        return jsonify(repuesta.err500)
 
 
 # fdsfsfsd

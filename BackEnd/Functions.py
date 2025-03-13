@@ -164,3 +164,22 @@ def fnGetLedStateById(led_id):
     except Exception as e:
         print("Error en la función fnGetLedStateById", e)
         return jsonify(respuestas.err500)
+def fnGetAllLedsState():
+    try:
+        # Obtener todos los documentos de la colección 'Leds'
+        leds = dbLeds.find()
+
+        # Convertir los resultados en un diccionario {id: estado}
+        led_states = {str(led["_id"]): led.get("status", False) for led in leds}
+
+        # Construir la respuesta
+        response = respuestas.succ200.copy()
+        response["Mensaje"] = "Estados de todos los LEDs obtenidos correctamente"
+        response["Estados"] = led_states
+
+        return jsonify(response)
+
+    except Exception as e:
+        print("Error en la función fnGetAllLedsState", e)
+        return jsonify(respuestas.err500)
+
