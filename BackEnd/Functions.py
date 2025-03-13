@@ -111,3 +111,56 @@ def fnSetLedStateById(led_id):
     except Exception as e:
         print("Error en la función fnSetLedStateById", e)
         return jsonify(respuestas.err500)
+    
+def fnSetLedStateTrueById(led_id):
+    try:
+        # Actualizar el estado del LED a True
+        result = dbLeds.update_one(
+            {"_id": ObjectId(led_id)},
+            {"$set": {"status": True}}
+        )
+
+        if result.matched_count == 0:
+            return jsonify({"Respuesta": False, "Mensaje": "LED no encontrado"}), 404
+
+        response = respuestas.succ200.copy()
+        response["Mensaje"] = f"Estado del LED {led_id} actualizado a True"
+        return jsonify(response)
+
+    except Exception as e:
+        print("Error en la función fnSetLedStateTrueById", e)
+        return jsonify(respuestas.err500)
+def fnSetLedStateFalseById(led_id):
+    try:
+        # Actualizar el estado del LED a False
+        result = dbLeds.update_one(
+            {"_id": ObjectId(led_id)},
+            {"$set": {"status": False}}
+        )
+
+        if result.matched_count == 0:
+            return jsonify({"Respuesta": False, "Mensaje": "LED no encontrado"}), 404
+
+        response = respuestas.succ200.copy()
+        response["Mensaje"] = f"Estado del LED {led_id} actualizado a False"
+        return jsonify(response)
+
+    except Exception as e:
+        print("Error en la función fnSetLedStateFalseById", e)
+        return jsonify(respuestas.err500)
+def fnGetLedStateById(led_id):
+    try:
+        # Buscar el estado del LED por ID
+        led = dbLeds.find_one({"_id": ObjectId(led_id)})
+
+        if led is None:
+            return jsonify({"Respuesta": False, "Mensaje": "LED no encontrado"}), 404
+
+        response = respuestas.succ200.copy()
+        response["Mensaje"] = f"Estado del LED {led_id}"
+        response["Estado"] = led.get("status")
+        return jsonify(response)
+
+    except Exception as e:
+        print("Error en la función fnGetLedStateById", e)
+        return jsonify(respuestas.err500)

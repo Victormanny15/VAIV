@@ -24,7 +24,7 @@ def getUsers():
         objResult=Callmethod.fnGetUsers()
         return objResult
     except Exception as error:
-        print("Error en getUsers",error)
+        print("estoy en el route",error)
         return jsonify(repuesta.err500)
 
 @app.route('/getUser/<id>', methods=['GET'])
@@ -70,10 +70,35 @@ def update_led(led_id):
     except Exception as error:
         print("Error en el route '/updateLed':", error)
         return jsonify(repuesta.err500) 
+    
+@app.route('/setLedTrue/<led_id>', methods=['POST'])
+@cross_origin(allow_headers=['content-type'])
+def set_led_true(led_id):
+    try:
+        objResult = Callmethod.fnSetLedStateTrueById(led_id)
+        return objResult
+    except Exception as error:
+        print("Error en el route '/setLedTrue':", error)
+        return jsonify(repuesta.err500)
+@app.route('/setLedFalse/<led_id>', methods=['POST'])
+@cross_origin(allow_headers=['content-type'])
+def set_led_false(led_id):
+    try:
+        objResult = Callmethod.fnSetLedStateFalseById(led_id)
+        return objResult
+    except Exception as error:
+        print("Error en el route '/setLedFalse':", error)
+        return jsonify(repuesta.err500)
+@app.route('/getLedState/<led_id>', methods=['GET'])
+@cross_origin(allow_headers=['content-type'])
+def get_led_state(led_id):
+    try:
+        objResult = Callmethod.fnGetLedStateById(led_id)
+        return objResult
+    except Exception as error:
+        print("Error en el route '/getLedState':", error)
+        return jsonify(repuesta.err500)
 
-<<<<<<< HEAD
+
 # fdsfsfsd
 # app.run(host="0.0.0.0", port=5000, debug=True, threaded=True)
-=======
-# app.run(host="0.0.0.0", port=5000, debug=True, threaded=True)
->>>>>>> 11e34d2f6af0c4bf62679d90728f9c1dfb0196c8
